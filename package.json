@@ -44,10 +44,16 @@
   },
   "devDependencies": {
     "@sheerun/mutationobserver-shim": "0.3.3",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-trybe-frontend": "1.2.3",
     "eslint-plugin-sonarjs": "^0.13.0",
     "stylelint": "13.8.0",
     "stylelint-order": "4.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
