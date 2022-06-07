@@ -1,11 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTableContext from '../context/DataTableContext';
 
 export default function Table() {
   const { data } = useContext(DataTableContext);
 
+  const [filterName, setFilterName] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  // const [filterName, setFilterName] = useState('');
+
+  const [filteredData, setFilteredData] = useState([...data]);
+
+  const inputFilterName = ({ target }) => {
+    // setFilterName(target.value);
+    setFilterName({
+      filterByName: {
+        name: target.value,
+      },
+    });
+  };
+
+  useEffect(() => {
+    setFilteredData(data.filter((planet) => (
+      planet.name.toLowerCase().includes(filterName.filterByName.name)
+    )));
+  }, [data, filterName]);
+
   return (
     <div>
+      <label htmlFor="filterName">
+        Name:
+        <input
+          id="filterName"
+          type="text"
+          name="filterByName"
+          data-testid="name-filter"
+          onChange={ inputFilterName }
+        />
+      </label>
       <table>
         <thead>
           <tr>
@@ -25,7 +59,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.map((planet, index) => (
+          { filteredData.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>

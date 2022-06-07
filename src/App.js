@@ -6,7 +6,6 @@ import DataTableProvider from './context/DataTableProvider';
 function App() {
   return (
     <DataTableProvider>
-      <h1>stá uórs</h1>
       <Table />
     </DataTableProvider>
   );
