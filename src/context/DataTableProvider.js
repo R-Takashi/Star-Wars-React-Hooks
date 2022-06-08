@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import DataTableContext from './DataTableContext';
 
+const collumnFilter = ['population', 'orbital_period',
+  'diameter', 'rotation_period', 'surface_water'];
+
 function DataTableProvider({ children }) {
   const [data, setData] = useState([]);
 
@@ -72,6 +75,8 @@ function DataTableProvider({ children }) {
     setfilterQuantity(target.value);
   };
 
+  const [selectColumn, setSelectColumn] = useState(collumnFilter);
+
   const filterSubmit = () => {
     const newFilter = {
       column: filterCollumn,
@@ -79,6 +84,8 @@ function DataTableProvider({ children }) {
       value: filterQuantity,
     };
     setfilterByNumericValues([...filterByNumericValues, newFilter]);
+    const newSelect = selectColumn.filter((select) => select !== filterCollumn);
+    setSelectColumn(newSelect);
   };
 
   const contextValue = {
@@ -93,7 +100,7 @@ function DataTableProvider({ children }) {
     filterQuantity,
     filterQuantityInput,
     filterSubmit,
-
+    selectColumn,
   };
 
   return (

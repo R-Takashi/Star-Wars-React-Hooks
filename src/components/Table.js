@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import DataTableContext from '../context/DataTableContext';
 
-const collumnFilter = ['population', 'orbital_period',
-  'diameter', 'rotation_period', 'surface_water'];
-
 export default function Table() {
   const { filterByName, filterNameInput, filteredData,
     filterCollumn, filterCollumnInput,
     filterComparison, filterComparisonInput,
-    filterQuantity, filterQuantityInput, filterSubmit } = useContext(DataTableContext);
+    filterQuantity, filterQuantityInput, filterSubmit,
+    selectColumn } = useContext(DataTableContext);
 
   return (
     <div>
@@ -28,7 +26,7 @@ export default function Table() {
         value={ filterCollumn }
         onChange={ filterCollumnInput }
       >
-        {collumnFilter.map((filter, index) => (
+        {selectColumn.map((filter, index) => (
           <option key={ index }>{filter}</option>
         ))}
       </select>
