@@ -22,13 +22,82 @@ function DataTableProvider({ children }) {
     getData();
   }, []);
 
-  const contextType = {
+  const [filterByName, setfilterByName] = useState('');
+
+  const filterNameInput = ({ target }) => {
+    setfilterByName(target.value);
+  };
+
+  const [filteredData, setFilteredData] = useState([...data]);
+
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
+
+  useEffect(() => {
+    const filteredByName = data.filter((planet) => (
+      planet.name.toLowerCase().includes(filterByName)
+    ));
+
+    console.log(filterByNumericValues);
+    const newList = filterByNumericValues
+      .reduce((acc, filterKey) => acc.filter((planet) => {
+        switch (filterKey.comparison) {
+        case 'maior que':
+          return Number(planet[filterKey.column]) > Number(filterKey.value);
+        case 'menor que':
+          return Number(planet[filterKey.column]) < Number(filterKey.value);
+        case 'igual a':
+          return Number(planet[filterKey.column]) === Number(filterKey.value);
+        default:
+          return planet;
+        }
+      }), filteredByName);
+    setFilteredData(newList);
+  }, [data, filterByName, filterByNumericValues]);
+
+  const [filterCollumn, setfilterCollumn] = useState('population');
+
+  const filterCollumnInput = ({ target }) => {
+    setfilterCollumn(target.value);
+  };
+
+  const [filterComparison, setfilterComparison] = useState('maior que');
+
+  const filterComparisonInput = ({ target }) => {
+    setfilterComparison(target.value);
+  };
+
+  const [filterQuantity, setfilterQuantity] = useState(0);
+
+  const filterQuantityInput = ({ target }) => {
+    setfilterQuantity(target.value);
+  };
+
+  const filterSubmit = () => {
+    const newFilter = {
+      column: filterCollumn,
+      comparison: filterComparison,
+      value: filterQuantity,
+    };
+    setfilterByNumericValues([...filterByNumericValues, newFilter]);
+  };
+
+  const contextValue = {
     data,
-    setData,
+    filterByName,
+    filterNameInput,
+    filteredData,
+    filterCollumn,
+    filterCollumnInput,
+    filterComparison,
+    filterComparisonInput,
+    filterQuantity,
+    filterQuantityInput,
+    filterSubmit,
+
   };
 
   return (
-    <DataTableContext.Provider value={ contextType }>
+    <DataTableContext.Provider value={ contextValue }>
       {children}
     </DataTableContext.Provider>
   );

@@ -1,32 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import DataTableContext from '../context/DataTableContext';
 
+const collumnFilter = ['population', 'orbital_period',
+  'diameter', 'rotation_period', 'surface_water'];
+
 export default function Table() {
-  const { data } = useContext(DataTableContext);
-
-  const [filterName, setFilterName] = useState({
-    filterByName: {
-      name: '',
-    },
-  });
-  // const [filterName, setFilterName] = useState('');
-
-  const [filteredData, setFilteredData] = useState([...data]);
-
-  const inputFilterName = ({ target }) => {
-    // setFilterName(target.value);
-    setFilterName({
-      filterByName: {
-        name: target.value,
-      },
-    });
-  };
-
-  useEffect(() => {
-    setFilteredData(data.filter((planet) => (
-      planet.name.toLowerCase().includes(filterName.filterByName.name)
-    )));
-  }, [data, filterName]);
+  const { filterByName, filterNameInput, filteredData,
+    filterCollumn, filterCollumnInput,
+    filterComparison, filterComparisonInput,
+    filterQuantity, filterQuantityInput, filterSubmit } = useContext(DataTableContext);
 
   return (
     <div>
@@ -35,11 +17,51 @@ export default function Table() {
         <input
           id="filterName"
           type="text"
-          name="filterByName"
           data-testid="name-filter"
-          onChange={ inputFilterName }
+          value={ filterByName }
+          onChange={ filterNameInput }
         />
       </label>
+
+      <select
+        data-testid="column-filter"
+        value={ filterCollumn }
+        onChange={ filterCollumnInput }
+      >
+        {collumnFilter.map((filter, index) => (
+          <option key={ index }>{filter}</option>
+        ))}
+      </select>
+
+      <select
+        data-testid="comparison-filter"
+        value={ filterComparison }
+        onChange={ filterComparisonInput }
+      >
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
+      </select>
+
+      <label htmlFor="quantity">
+        Quantity:
+        <input
+          id="quantity"
+          type="number"
+          data-testid="value-filter"
+          value={ filterQuantity }
+          onChange={ filterQuantityInput }
+        />
+      </label>
+
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ filterSubmit }
+      >
+        Filtrar
+      </button>
+
       <table>
         <thead>
           <tr>
