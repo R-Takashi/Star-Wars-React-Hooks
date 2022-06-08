@@ -53,7 +53,15 @@ function DataTableProvider({ children }) {
           return planet;
         }
       }), filteredByName);
-    setFilteredData(newList);
+
+    const sortedNewList = newList.sort((a, b) => {
+      const MAGIC = -1;
+      if (a.name < b.name) return MAGIC;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+
+    setFilteredData(sortedNewList);
   }, [data, filterByName, filterByNumericValues]);
 
   const [filterCollumn, setfilterCollumn] = useState('population');
@@ -107,9 +115,63 @@ function DataTableProvider({ children }) {
       acc.push(select);
       return acc;
     }, []);
-    console.log(selectReturn);
     setSelectColumn(selectReturn);
   }, [filterByNumericValues]);
+
+  const [orderCollumn, setOrderCollumn] = useState('');
+
+  const orderColumnInput = ({ target }) => {
+    setOrderCollumn(target.value);
+  };
+
+  const [sortType, setSortType] = useState('');
+
+  const sortInput = ({ target }) => {
+    setSortType(target.value);
+  };
+
+  const [order, setOrder] = useState({
+    column: '',
+    sort: '',
+  });
+
+  const orderPlanets = () => {
+    setOrder({
+      column: orderCollumn,
+      sort: sortType,
+    });
+  };
+
+  const [planetsData, setPlanetsData] = useState({
+    unknownData: [],
+    planets: [],
+  });
+
+  useEffect(() => {
+    const unknownData = data
+      .filter((planet) => planet[order.column] === 'unknown');
+    const planets = data.filter((planet) => planet[order.column] !== 'unknown');
+    setPlanetsData({
+      unknownData,
+      planets,
+    });
+  }, [order, data]);
+
+  useEffect(() => {
+    let sortedList = [];
+    const { unknownData, planets } = planetsData;
+
+    if (order.sort === 'ASC') {
+      sortedList = planets
+        .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+      return setFilteredData([...sortedList, ...unknownData]);
+    }
+    if (order.sort === 'DESC') {
+      sortedList = planets
+        .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+      return setFilteredData([...sortedList, ...unknownData]);
+    }
+  }, [order, planetsData]);
 
   const contextValue = {
     data,
@@ -127,6 +189,11 @@ function DataTableProvider({ children }) {
     filterByNumericValues,
     removeFilter,
     removeAllFilters,
+    collumnFilter,
+    orderCollumn,
+    orderColumnInput,
+    sortInput,
+    orderPlanets,
   };
 
   return (

@@ -7,7 +7,8 @@ export default function Table() {
     filterComparison, filterComparisonInput,
     filterQuantity, filterQuantityInput, filterSubmit,
     selectColumn, filterByNumericValues, removeFilter,
-    removeAllFilters } = useContext(DataTableContext);
+    removeAllFilters, collumnFilter, orderCollumn,
+    orderColumnInput, sortInput, orderPlanets } = useContext(DataTableContext);
 
   return (
     <div>
@@ -69,6 +70,49 @@ export default function Table() {
         Remover Filtros
       </button>
 
+      <form>
+        Ordenar Planetas:
+        <select
+          data-testid="column-sort"
+          value={ orderCollumn }
+          onChange={ orderColumnInput }
+        >
+          <option value="">Selecione uma coluna</option>
+          {collumnFilter.map((filter, index) => (
+            <option key={ index }>{filter}</option>
+          ))}
+        </select>
+        <label htmlFor="sortAsc">
+          ASC:
+          <input
+            type="radio"
+            name="sort"
+            id="sortAsc"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            onClick={ sortInput }
+          />
+        </label>
+        <label htmlFor="sortDesc">
+          DESC:
+          <input
+            type="radio"
+            name="sort"
+            id="sortDesc"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            onClick={ sortInput }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ orderPlanets }
+        >
+          Ordernar
+        </button>
+      </form>
+
       <ul>
         Filtros Aplicados:
         {
@@ -107,7 +151,7 @@ export default function Table() {
         <tbody>
           { filteredData.map((planet, index) => (
             <tr key={ index }>
-              <td>{planet.name}</td>
+              <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>
