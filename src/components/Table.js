@@ -6,7 +6,8 @@ export default function Table() {
     filterCollumn, filterCollumnInput,
     filterComparison, filterComparisonInput,
     filterQuantity, filterQuantityInput, filterSubmit,
-    selectColumn } = useContext(DataTableContext);
+    selectColumn, filterByNumericValues, removeFilter,
+    removeAllFilters } = useContext(DataTableContext);
 
   return (
     <div>
@@ -59,6 +60,31 @@ export default function Table() {
       >
         Filtrar
       </button>
+
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ removeAllFilters }
+      >
+        Remover Filtros
+      </button>
+
+      <ul>
+        Filtros Aplicados:
+        {
+          filterByNumericValues.map((filter, index) => (
+            <li key={ index } data-testid="filter">
+              {`${filter.column} - ${filter.comparison} - ${filter.value}`}
+              <button
+                type="button"
+                onClick={ () => removeFilter(index) }
+              >
+                X
+              </button>
+            </li>
+          ))
+        }
+      </ul>
 
       <table>
         <thead>

@@ -40,7 +40,6 @@ function DataTableProvider({ children }) {
       planet.name.toLowerCase().includes(filterByName)
     ));
 
-    console.log(filterByNumericValues);
     const newList = filterByNumericValues
       .reduce((acc, filterKey) => acc.filter((planet) => {
         switch (filterKey.comparison) {
@@ -86,7 +85,31 @@ function DataTableProvider({ children }) {
     setfilterByNumericValues([...filterByNumericValues, newFilter]);
     const newSelect = selectColumn.filter((select) => select !== filterCollumn);
     setSelectColumn(newSelect);
+    setfilterCollumn(newSelect[0]);
   };
+
+  const removeFilter = (index) => {
+    setfilterByNumericValues(
+      filterByNumericValues.filter((_filter, filterIndex) => filterIndex !== index),
+    );
+  };
+
+  const removeAllFilters = () => {
+    setfilterByNumericValues([]);
+    setSelectColumn(collumnFilter);
+  };
+
+  useEffect(() => {
+    const selectReturn = collumnFilter.reduce((acc, select) => {
+      if (filterByNumericValues.some((filt) => filt.column === select)) {
+        return acc;
+      }
+      acc.push(select);
+      return acc;
+    }, []);
+    console.log(selectReturn);
+    setSelectColumn(selectReturn);
+  }, [filterByNumericValues]);
 
   const contextValue = {
     data,
@@ -101,6 +124,9 @@ function DataTableProvider({ children }) {
     filterQuantityInput,
     filterSubmit,
     selectColumn,
+    filterByNumericValues,
+    removeFilter,
+    removeAllFilters,
   };
 
   return (
