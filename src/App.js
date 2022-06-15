@@ -2,7 +2,7 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Table from './components/Table';
 import DataTableProvider from './context/DataTableProvider';
-import backzinho from './images/aaa.svg';
+import background from './images/background.svg';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 body{
   background-color: #000;
   background-size: 70px,100%;
-  background-image: url(${backzinho});
+  background-image: url(${background});
 }
 `;
 
