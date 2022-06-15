@@ -60,7 +60,6 @@ function DataTableProvider({ children }) {
       if (a.name > b.name) return 1;
       return 0;
     });
-
     setFilteredData(sortedNewList);
   }, [data, filterByName, filterByNumericValues]);
 

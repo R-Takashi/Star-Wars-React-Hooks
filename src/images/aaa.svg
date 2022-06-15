@@ -1,0 +1,1 @@
+<svg opacity='.2' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><defs><circle id='a' r='1' fill='hsl(0, 0%, 100%)'/></defs><use href='#a' x='50' y='50'/><use href='#a' x='150' y='50'/><use href='#a' x='50' y='150'/><use href='#a' x='150' y='150'/><use href='#a' transform='matrix(2.5 0 0 2.5 100 100)'/></svg>
