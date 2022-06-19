@@ -52,7 +52,7 @@ export default function Form() {
         </div>
 
         <div>
-          Quantidade:
+          <p className='a'>Quantidade:</p>
           <input
             type="number"
             data-testid="value-filter"

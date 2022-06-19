@@ -113,11 +113,16 @@ const FormStyled = styled.div`
           border-bottom: 2px solid white;
           }
 
+          
           :focus {
             transition: .6s;
             border-bottom: 2px solid yellow;
           }
         }
+      }
+      div:focus-within {
+        transition: .6s;
+        color: yellow;
       }
     }
 
@@ -138,6 +143,9 @@ const FormStyled = styled.div`
         accent-color: #FFE81F;
       }
     }
+  }
+  .sort:focus-within {
+    color: white;
   }
 
   section{
