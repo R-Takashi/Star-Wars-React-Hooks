@@ -17,4 +17,4 @@ Utilizar o React Hook useContext;
 Utilizar o React Hook useEffect;
 
 # Caso queira ver em funcionamento
-Projeto em funcionamento disponível aqui: https://github.com/R-Takashi/Star-Wars-React-Hooks
+Projeto em funcionamento disponível aqui: https://star-wars-react-hooks.vercel.app/
