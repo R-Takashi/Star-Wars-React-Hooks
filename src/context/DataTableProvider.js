@@ -11,7 +11,7 @@ function DataTableProvider({ children }) {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+        const response = await fetch('https://swapi.dev/api/planets/');
         const { results } = await response.json();
         const planets = results.map((planet) => {
           delete planet.residents;
